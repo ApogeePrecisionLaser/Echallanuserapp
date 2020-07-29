@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Echallandisplay">
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:id="@+id/lay1"
+       android:orientation="horizontal"
+       android:layout_height="wrap_content">
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textSize="30dp"
+      android:text="Echallan"/>
+   </LinearLayout>
+<!--   <LinearLayout-->
+<!--       android:layout_width="match_parent"-->
+<!--       android:layout_below="@+id/lay1"-->
+<!--       android:layout_marginTop="10dp"-->
+<!--       android:padding="5dp"-->
+<!--       android:id="@+id/lay2"-->
+<!--       android:orientation="horizontal"-->
+<!--       android:layout_height="wrap_content">-->
+<!--      <TextView-->
+<!--          android:layout_width="0dp"-->
+<!--          android:layout_height="wrap_content"-->
+<!--          android:text="Offender Name"-->
+<!--          android:textSize="25dp"-->
+<!--          android:layout_weight="1"/>-->
+<!--      <TextView-->
+<!--          android:layout_width="0dp"-->
+<!--          android:layout_height="wrap_content"-->
+<!--          android:textSize="25dp"-->
+<!--          android:id="@+id/txt1"-->
+<!--          android:layout_weight="1"/>-->
+<!--   </LinearLayout>-->
+<!--&lt;!&ndash;   <LinearLayout&ndash;&gt;-->
+<!--&lt;!&ndash;       android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;       android:layout_below="@+id/lay2"&ndash;&gt;-->
+<!--&lt;!&ndash;       android:layout_marginTop="10dp"&ndash;&gt;-->
+<!--&lt;!&ndash;       android:padding="5dp"&ndash;&gt;-->
+<!--&lt;!&ndash;       android:id="@+id/lay3"&ndash;&gt;-->
+<!--&lt;!&ndash;       android:orientation="horizontal"&ndash;&gt;-->
+<!--&lt;!&ndash;       android:layout_height="wrap_content">&ndash;&gt;-->
+<!--&lt;!&ndash;      <TextView&ndash;&gt;-->
+<!--&lt;!&ndash;          android:layout_width="0dp"&ndash;&gt;-->
+<!--&lt;!&ndash;          android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;          android:text="Echallan number"&ndash;&gt;-->
+<!--&lt;!&ndash;          android:textSize="25dp"&ndash;&gt;-->
+<!--&lt;!&ndash;          android:layout_weight="1"/>&ndash;&gt;-->
+<!--&lt;!&ndash;      <TextView&ndash;&gt;-->
+<!--&lt;!&ndash;          android:layout_width="0dp"&ndash;&gt;-->
+<!--&lt;!&ndash;          android:textSize="25dp"&ndash;&gt;-->
+<!--&lt;!&ndash;          android:id="@+id/txt2"&ndash;&gt;-->
+<!--&lt;!&ndash;          android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;          android:layout_weight="1"/>&ndash;&gt;-->
+<!--&lt;!&ndash;   </LinearLayout>&ndash;&gt;-->
+<!--   <LinearLayout-->
+<!--       android:layout_width="match_parent"-->
+<!--       android:layout_below="@+id/lay2"-->
+<!--       android:id="@+id/lay3"-->
+<!--       android:layout_marginTop="10dp"-->
+<!--       android:padding="5dp"-->
+<!--       android:orientation="horizontal"-->
+<!--       android:layout_height="wrap_content">-->
+<!--      <TextView-->
+<!--          android:layout_width="0dp"-->
+<!--          android:layout_height="wrap_content"-->
+<!--          android:text="Vehicle number"-->
+<!--          android:textSize="25dp"-->
+<!--          android:layout_weight="1"/>-->
+<!--      <TextView-->
+<!--          android:layout_width="0dp"-->
+<!--          android:layout_height="wrap_content"-->
+<!--          android:layout_weight="1"-->
+<!--          android:id="@+id/txt3"-->
+
+<!--          android:textSize="25dp"-->
+<!--          />-->
+<!--   </LinearLayout>-->
+<!--   <LinearLayout-->
+<!--       android:layout_width="match_parent"-->
+<!--       android:layout_below="@+id/lay3"-->
+<!--       android:id="@+id/lay4"-->
+<!--       android:layout_marginTop="10dp"-->
+<!--       android:padding="5dp"-->
+<!--       android:orientation="horizontal"-->
+<!--       android:layout_height="wrap_content">-->
+<!--      <TextView-->
+<!--          android:layout_width="0dp"-->
+<!--          android:layout_height="wrap_content"-->
+<!--          android:text="Vehicle type"-->
+<!--          android:textSize="25dp"-->
+<!--          android:layout_weight="1"/>-->
+<!--      <TextView-->
+<!--          android:layout_width="0dp"-->
+<!--          android:layout_height="wrap_content"-->
+<!--          android:layout_weight="1"-->
+<!--          android:id="@+id/txt4"-->
+<!--          android:textSize="25dp"-->
+<!--          />-->
+<!--   </LinearLayout>-->
+<!--   <LinearLayout-->
+<!--       android:layout_width="match_parent"-->
+<!--       android:layout_below="@+id/lay4"-->
+<!--       android:id="@+id/lay5"-->
+<!--       android:layout_marginTop="10dp"-->
+<!--       android:padding="5dp"-->
+<!--       android:orientation="horizontal"-->
+<!--       android:layout_height="wrap_content">-->
+<!--      <TextView-->
+<!--          android:layout_width="0dp"-->
+<!--          android:layout_height="wrap_content"-->
+<!--          android:text="Date of offence"-->
+<!--          android:textSize="25dp"-->
+<!--          android:layout_weight="1"/>-->
+<!--      <TextView-->
+<!--          android:layout_width="0dp"-->
+<!--          android:layout_height="wrap_content"-->
+<!--          android:layout_weight="1"-->
+<!--          android:id="@+id/txt5"-->
+
+<!--          android:textSize="25dp"-->
+<!--          />-->
+<!--   </LinearLayout>-->
+<!--   <LinearLayout-->
+<!--       android:layout_width="match_parent"-->
+<!--       android:layout_below="@+id/lay5"-->
+<!--       android:id="@+id/lay6"-->
+<!--       android:layout_marginTop="10dp"-->
+<!--       android:padding="5dp"-->
+<!--       android:orientation="horizontal"-->
+<!--       android:layout_height="wrap_content">-->
+<!--      <TextView-->
+<!--          android:layout_width="0dp"-->
+<!--          android:layout_height="wrap_content"-->
+<!--          android:text="Act origin"-->
+<!--          android:textSize="25dp"-->
+<!--          android:layout_weight="1"/>-->
+<!--      <TextView-->
+<!--          android:layout_width="0dp"-->
+<!--          android:layout_height="wrap_content"-->
+<!--          android:textSize="25dp"-->
+<!--          android:id="@+id/txt6"-->
+
+<!--          android:layout_weight="1"/>-->
+<!--   </LinearLayout>-->
+<!--   <LinearLayout-->
+<!--       android:layout_width="match_parent"-->
+<!--       android:layout_below="@+id/lay6"-->
+<!--       android:id="@+id/lay7"-->
+<!--       android:layout_marginTop="10dp"-->
+<!--       android:padding="5dp"-->
+<!--       android:orientation="horizontal"-->
+<!--       android:layout_height="wrap_content">-->
+<!--      <TextView-->
+<!--          android:layout_width="0dp"-->
+<!--          android:layout_height="wrap_content"-->
+<!--          android:text="Offence type"-->
+<!--          android:textSize="25dp"-->
+<!--          android:layout_weight="1"/>-->
+<!--      <TextView-->
+<!--          android:layout_width="0dp"-->
+<!--          android:layout_height="wrap_content"-->
+<!--          android:layout_weight="1"-->
+<!--          android:id="@+id/txt7"-->
+
+<!--          android:textSize="25dp"-->
+<!--          />-->
+<!--   </LinearLayout>-->
+<!--   <LinearLayout-->
+<!--       android:layout_width="match_parent"-->
+<!--       android:layout_below="@+id/lay7"-->
+<!--       android:id="@+id/lay8"-->
+<!--       android:layout_marginTop="10dp"-->
+<!--       android:padding="5dp"-->
+<!--       android:orientation="horizontal"-->
+<!--       android:layout_height="wrap_content">-->
+<!--      <TextView-->
+<!--          android:layout_width="0dp"-->
+<!--          android:layout_height="wrap_content"-->
+<!--          android:text="Location"-->
+<!--          android:textSize="25dp"-->
+<!--          android:layout_weight="1"/>-->
+<!--      <TextView-->
+<!--          android:layout_width="0dp"-->
+<!--          android:layout_height="wrap_content"-->
+<!--          android:layout_weight="1"-->
+<!--          android:id="@+id/txt8"-->
+
+<!--          android:textSize="25dp"-->
+<!--          />-->
+<!--   </LinearLayout>-->
+<!--    <LinearLayout-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_below="@+id/lay8"-->
+<!--    android:id="@+id/lay9"-->
+<!--    android:layout_marginTop="10dp"-->
+<!--    android:padding="5dp"-->
+<!--    android:orientation="horizontal"-->
+<!--    android:layout_height="wrap_content">-->
+<!--   <TextView-->
+<!--       android:layout_width="0dp"-->
+<!--       android:layout_height="wrap_content"-->
+<!--       android:text="Amount"-->
+<!--       android:textSize="25dp"-->
+<!--       android:layout_weight="1"/>-->
+<!--   <TextView-->
+<!--       android:layout_width="0dp"-->
+<!--       android:layout_height="wrap_content"-->
+<!--       android:layout_weight="1"-->
+<!--       android:id="@+id/txt9"-->
+<!--       android:textSize="25dp"-->
+<!--       />-->
+<!--</LinearLayout>-->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lay2"
+        android:layout_below="@+id/lay1" >
+
+
+        <ScrollView
+            android:id="@+id/scroll_table"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ccffcc">
+            <HorizontalScrollView android:id="@+id/horizon_table"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TableLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/maintable">
+
+                </TableLayout>
+            </HorizontalScrollView>
+        </ScrollView>
+
+    </FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_below="@+id/lay2"
+        android:id="@+id/lay3"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnpaay"
+            android:background="@drawable/et_styles"
+            android:text="Pay Amount"
+            android:textSize="25dp" />
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Login">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_margin="20dp"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/number"
+            android:layout_width="match_parent"
+            android:layout_marginTop="100dp"
+            android:padding="10dp"
+            android:inputType="number"
+            android:background="@drawable/et_style"
+            android:maxLength="16"
+            android:hint="Enter Your Mobile Number"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/submit"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center"
+            android:background="@drawable/et_styles"
+            android:textColor="@android:color/black"
+            android:text="SUBMIT"
+            android:inputType="number"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+</LinearLayout>

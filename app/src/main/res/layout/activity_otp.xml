@@ -1,0 +1,50 @@
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <EditText
+            android:id="@+id/otp"
+            android:layout_width="match_parent"
+            android:layout_marginTop="100dp"
+            android:padding="10dp"
+            android:background="@drawable/et_style"
+            android:maxLength="16"
+            android:inputType="number"
+            android:hint="Enter OTP"
+            android:layout_height="wrap_content"/>
+           />
+
+        <Button
+            android:id="@+id/submitotp"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center"
+            android:background="@drawable/et_styles"
+            android:textColor="@android:color/black"
+            android:text="submit"
+
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/btnLinkToResendOtp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dip"
+            android:background="@drawable/et_styles"
+            android:textColor="@android:color/black"
+            android:layout_marginLeft="10dp"
+            android:text="OTP not received? Resend OTP"
+            android:textAllCaps="false"
+            android:textSize="15dp" />
+    </LinearLayout>
+
+</RelativeLayout>
