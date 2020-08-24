@@ -1,11 +1,8 @@
 package com.echallanuser.model;
-
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.os.StrictMode;
 import android.util.Log;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -18,33 +15,26 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
-
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
+
 
 public class Webservice {
     private static final String TAG = "Echallan";
     Context context;
-    String server_ip ="120.138.10.251";
-    String port ="8080";
-
+    String server_ip="120.138.10.251";
+    String port="8080";
     public Webservice(Context context) {
         this.context = context;
     }
 
-    public String getdata(String data) {
-        String result = "";
+    public String getdata(JSONObject jsonObject) {
+        String data = "";
         HttpResponse response = null;
         JSONArray jsonArray=new JSONArray();
         JSONObject receivedJsonObj = null;
-
         try {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
@@ -52,30 +42,29 @@ public class Webservice {
             if(server_ip!=null){
                 httppost = new HttpPost("http://" +server_ip + ":" + port + "/TrafficPoliceNew/api/shift/getOffenderdata");
             }else{
-
                 httppost = new HttpPost("http://" + "120.138.10.251" + ":" + "8084" + "/api/shift/getOffenderdata");
             }
 
             HttpParams httpParameters = new BasicHttpParams();
             HttpClient httpClient = new DefaultHttpClient(httpParameters);
             httppost.setHeader("Content-type", "application/json");
-            httppost.setEntity(new StringEntity(data.toString(), "UTF-8"));
+            httppost.setEntity(new StringEntity(jsonObject.toString(), "UTF-8"));
             try {
 
-                response = httpClient.execute(httppost);
+               response = httpClient.execute(httppost);
                receivedJsonObj = processHttpResponse(response);
 //                result = EntityUtils.toString(response.getEntity());
-            data = receivedJsonObj.toString();
+               data = receivedJsonObj.toString();
 
                 httpClient.getConnectionManager().shutdown();
-            } catch (Exception e) {
+               } catch (Exception e) {
                 Log.e(TAG, "Error in http data " + e.toString());
+               }
+               }
+              catch (Exception e) {
+                  Log.e(TAG, "Error in http connection " + e.toString());
             }
-        }
-        catch (Exception e) {
-            Log.e(TAG, "Error in http connection " + e.toString());
-        }
-        return data;
+            return data;
     }
 
 
@@ -174,9 +163,9 @@ public class Webservice {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
             HttpPost httppost=null;
-            if(port.equalsIgnoreCase("8084"))
+            if(port.equalsIgnoreCase("8085"))
             {
-                httppost = new HttpPost("http://"+server_ip+":" + "8084"+  "/api/shift/reSendOTP");
+                httppost = new HttpPost("http://"+server_ip+":" + "8085"+  "/api/shift/reSendOTP");
             }
             else {
                 httppost = new HttpPost("http://" + "120.138.10.251" + ":" + "8080" + "/TrafficPoliceNew/api/shift/reSendOTP");

@@ -17,6 +17,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.echallanuser.database.DatabaseOperation;
 import com.echallanuser.model.Webservice;
 import com.echallanuser.paytmgateway.checksum;
 
@@ -27,42 +28,30 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Echallandisplay extends AppCompatActivity {
- TextView t1,t2,t3,t4,t5,t6,t7,t8,t9;
- Button btnpay;
- String keypersonid;
-    TableLayout tableLayout;
+import java.util.ArrayList;
 
-    String challanno,amount;
+public class Echallandisplay extends AppCompatActivity {
+ String trafficpoliceid;
+    TableLayout tableLayout;
+ DatabaseOperation databaseOperation=new DatabaseOperation(this);
+    String challanno,amount1;
+    ArrayList<String> tpid=new ArrayList<>();
+    JSONArray jsonArray=new JSONArray();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_echallandisplay);
         tableLayout =  findViewById(R.id.maintable);
-
-//        t1=findViewById(R.id.txt1);
-//        t3=findViewById(R.id.txt3);
-//        t4=findViewById(R.id.txt4);
-//        t5=findViewById(R.id.txt5);
-//        t6=findViewById(R.id.txt6);
-//        t7=findViewById(R.id.txt7);
-//        t8=findViewById(R.id.txt8);
-//        t9=findViewById(R.id.txt9);
-        btnpay=findViewById(R.id.btnpaay);
-        Intent i=getIntent();
-        keypersonid=i.getStringExtra("code");
-
-        btnpay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(Echallandisplay.this, checksum.class);
-                intent.putExtra("echallanno",challanno);
-                intent.putExtra("amount",amount);
-
-                startActivity(intent);
-
-            }
-        });
+      databaseOperation.open();
+      tpid =databaseOperation.getid();
+      for(int i=0;i<tpid.size();i++){
+          String data=tpid.get(i);
+          int val=Integer.parseInt(data);
+          jsonArray.put(val);
+      }
+//        Intent i=getIntent();
+//        trafficpoliceid=i.getStringExtra("trafficpoliceid");
+    /*        Request to server for echallan data     */
         caldata caldata=new caldata();
         caldata.execute();
     }
@@ -77,9 +66,16 @@ public class Echallandisplay extends AppCompatActivity {
             StrictMode.setThreadPolicy(policy);
             HttpClient httpclient = new DefaultHttpClient();
             HttpResponse response = null;
+            JSONObject jsonObject=new JSONObject();
+            try {
+
+                jsonObject.put("tpid",jsonArray);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             try {
                 final Webservice genericModel = new Webservice(Echallandisplay.this);
-                result = genericModel.getdata(keypersonid);
+                result = genericModel.getdata(jsonObject);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -100,7 +96,7 @@ public class Echallandisplay extends AppCompatActivity {
        //                 {"OffenceData":[{"Challan_no":"ORDER_138964","key_person_name":"श्री आर.एन त्रिपाठी","vehicle_no":"MP08R8868","offender_name":"","location":"ikuh dh Vadh frjkgk","offencedate":"24-07-2020 17:54:36","city_name":"","offender_age":"","vehicle_type":"LMV","act":"81\/177","offence_type":"मालयानो में पशुओ को  ले  जाना ","amount":"500","act_origin":"Madhya pradesh Moter vehicle Rules 1994","offence_code":"156"}]}
                        JSONObject jsonObject1 = jsonArray2.getJSONObject(i);
 
-                        amount=jsonObject1.getString("amount");
+                        amount1=jsonObject1.getString("amount");
                         challanno=jsonObject1.getString("Challan_no");
                         try {
                             dialog.dismiss();
@@ -188,8 +184,18 @@ public class Echallandisplay extends AppCompatActivity {
                     final TextView offencedate=new TextView(this);
                     createColumnView(row, offencedate,jsonObject1.getString("offencedate").toString(), false);
                     final TextView amount=new TextView(this);
-                    createColumnView(row, amount,jsonObject1.getString("amount").toString(), false);
+                    createColumnView(row, amount,jsonObject1.getString("amount").toString(), true);
+                    amount.setOnClickListener(new View.OnClickListener() {
+                      @Override
+                      public void onClick(View v) {
+                          Intent intent=new Intent(Echallandisplay.this, checksum.class);
+                          intent.putExtra("echallanno",challanno);
+                          intent.putExtra("amount",amount1);
+                          startActivity(intent);
+                      }
+                  });
                     tableLayout.addView(row);
+
 
 
                 } catch (JSONException e) {
@@ -230,34 +236,34 @@ public class Echallandisplay extends AppCompatActivity {
         tr.addView(t);
     }
 
-    public void createColumnView2(TableRow tr, TextView t, String viewdata, boolean hyperLink) {
-        t.setText("Min-Maxlevel");
-        t.setTextSize(20);
-        t.setBackgroundColor(Color.LTGRAY);
-        t.setMaxLines(5);
-        t.setTextColor(hyperLink ? Color.BLUE : Color.BLACK);
-        t.setPadding(12, 0, 0, 0);
-        tr.setPadding(0, 5, 0, 1);
-        tr.addView(t);
-    }
-    public void createColumnView3(TableRow tr, TextView t, String viewdata, boolean hyperLink) {
-        t.setText("FullView");
-        t.setTextSize(20);
-        t.setBackgroundColor(Color.LTGRAY);
-        t.setMaxLines(5);
-        t.setTextColor(hyperLink ? Color.BLUE : Color.BLACK);
-        t.setPadding(12, 0, 0, 0);
-        tr.setPadding(0, 5, 0, 1);
-        tr.addView(t);
-    }
-    public void createColumnView4(TableRow tr, TextView t, String viewdata, boolean hyperLink) {
-        t.setText("ChartView");
-        t.setTextSize(20);
-        t.setBackgroundColor(Color.LTGRAY);
-        t.setMaxLines(5);
-        t.setTextColor(hyperLink ? Color.BLUE : Color.BLACK);
-        t.setPadding(12, 0, 0, 0);
-        tr.setPadding(0, 5, 0, 1);
-        tr.addView(t);
-    }
+//    public void createColumnView2(TableRow tr, TextView t, String viewdata, boolean hyperLink) {
+//        t.setText("Min-Maxlevel");
+//        t.setTextSize(20);
+//        t.setBackgroundColor(Color.LTGRAY);
+//        t.setMaxLines(5);
+//        t.setTextColor(hyperLink ? Color.BLUE : Color.BLACK);
+//        t.setPadding(12, 0, 0, 0);
+//        tr.setPadding(0, 5, 0, 1);
+//        tr.addView(t);
+//    }
+//    public void createColumnView3(TableRow tr, TextView t, String viewdata, boolean hyperLink) {
+//        t.setText("FullView");
+//        t.setTextSize(20);
+//        t.setBackgroundColor(Color.LTGRAY);
+//        t.setMaxLines(5);
+//        t.setTextColor(hyperLink ? Color.BLUE : Color.BLACK);
+//        t.setPadding(12, 0, 0, 0);
+//        tr.setPadding(0, 5, 0, 1);
+//        tr.addView(t);
+//    }
+//    public void createColumnView4(TableRow tr, TextView t, String viewdata, boolean hyperLink) {
+//        t.setText("ChartView");
+//        t.setTextSize(20);
+//        t.setBackgroundColor(Color.LTGRAY);
+//        t.setMaxLines(5);
+//        t.setTextColor(hyperLink ? Color.BLUE : Color.BLACK);
+//        t.setPadding(12, 0, 0, 0);
+//        tr.setPadding(0, 5, 0, 1);
+//        tr.addView(t);
+//    }
 }

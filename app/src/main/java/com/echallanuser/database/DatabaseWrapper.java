@@ -21,14 +21,15 @@ public class DatabaseWrapper extends SQLiteOpenHelper
     private static final SQLiteDatabase.CursorFactory CURSOR_FACTORY = null;
 
     Context context;
-    private static final String checksumdataquery = " CREATE TABLE checksumdata ( "
-            + "  challanno INTEGER unsigned NOT NULL, "
-            + "  oderid TEXT NOT NULL,"
-            + "  custid TEXT NOT NULL,"
-            + "  remark TEXT DEFAULT NULL,"
-            + "  timestamp TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP "
-            + ");";
 
+    private static final String checksumdataquery = " CREATE TABLE checksumdata ("
+            + " challanno  INTEGER PRIMARY KEY ,"
+            + " oderid TEXT DEFAULT NULL,"
+            + " custid TEXT DEFAULT NULL,"
+            + " trafficpoliceid TEXT DEFAULT NULL,"
+            + " remark TEXT DEFAULT NULL,"
+            + " timestamp TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP"
+            + ");";
     private static final String Offencedataquery = " CREATE TABLE Offencedata ( "
                 + "  offenceid INTEGER PRIMARY KEY NOT NULL, "
                 + "  offendername TEXT NOT NULL,"

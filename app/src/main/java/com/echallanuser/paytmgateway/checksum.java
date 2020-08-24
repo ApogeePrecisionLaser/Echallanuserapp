@@ -180,6 +180,8 @@ public class checksum extends AppCompatActivity implements PaytmPaymentTransacti
         date.setText(date1);
         gatwayname.setText(gatewayname1);
         Toast.makeText(checksum.this,"Transcation successfull",Toast.LENGTH_LONG).show();
+        simpleProgressBar.setVisibility(View.INVISIBLE);
+
     }
 
     @Override

@@ -24,10 +24,12 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+
 public class Login extends AppCompatActivity {
     EditText mobile_no;
     ProgressDialog dialog;
-
+      SessionManager sessionManager;
     Button verify;
     String number = "";
     String ip = "", port = "";
@@ -42,13 +44,29 @@ public class Login extends AppCompatActivity {
 
         mobile_no = findViewById(R.id.number);
         verify = findViewById(R.id.submit);
+        sessionManager=new SessionManager(this);
+        boolean islogin=sessionManager.checkLogin();
+        if(islogin){
+            HashMap<String,String> userDetail=sessionManager.getUserDetails();
+            String ph=userDetail.get(SessionManager.KEY_MOBILE);
+            Intent i=new Intent(this,MainActivity.class);
+            i.putExtra("mobile_no",ph);
+            finish();
+            startActivity(i);
+        }
+
         verify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                number = mobile_no.getText().toString();
-                caldata caldata=new caldata();
-                caldata.execute();
+               if(!mobile_no.getText().toString().isEmpty()) {
+                   number = mobile_no.getText().toString();
+                   sessionManager.createLoginSession(number);
+                   /*number verfication from server registered or not*/
+                   caldata caldata = new caldata();
+                   caldata.execute();
+               }else{
+                  Toast.makeText(Login.this,"Enter Mobile number ",Toast.LENGTH_LONG).show();
+               }
             }
         });
     }

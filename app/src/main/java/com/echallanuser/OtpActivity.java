@@ -17,14 +17,19 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.echallanuser.Bean.Bean;
+import com.echallanuser.database.DatabaseOperation;
 import com.echallanuser.model.Webservice;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
@@ -38,10 +43,14 @@ public class OtpActivity extends AppCompatActivity
     String type="";
     String otp="";
     String mobile_no="",password;
-  //  SessionManager sessionManager;
+    DatabaseOperation databaseOperation = new DatabaseOperation(OtpActivity.this);
+
+    //  SessionManager sessionManager;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        DatabaseOperation databaseOperation = new DatabaseOperation(OtpActivity.this);
+        databaseOperation.open();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_otp);
 
@@ -64,10 +73,12 @@ public class OtpActivity extends AppCompatActivity
             public void onClick(View v)
             {
                         otp=editText_otp.getText().toString();
+                    /*---------------OTP verify to server----------*/
                         Callingservcie callingservcie = new Callingservcie();
                         callingservcie.execute();
             }
         });
+
         btnLinkToResendOtp.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -114,7 +125,8 @@ public class OtpActivity extends AppCompatActivity
 
     private class Callingservcie extends AsyncTask<String,String,String> {
 
-        String result="";
+        String result = "";
+
         @Override
         protected String doInBackground(String... params) {
 
@@ -124,7 +136,7 @@ public class OtpActivity extends AppCompatActivity
             HttpResponse response = null;
             try {
                 final Webservice genericModel = new Webservice(OtpActivity.this);
-              result = genericModel.sendOtp(mobile_no + "_" + otp);
+                result = genericModel.sendOtp(mobile_no + "_" + otp);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -133,28 +145,39 @@ public class OtpActivity extends AppCompatActivity
         }
 
         @Override
-        protected void onPostExecute(String result)
-        {
+        protected void onPostExecute(String result) {
+
+            long resultdatabase = 0;
 
             try {
-                if(!result.equals("")) {
+                if (!result.equals("")) {
                     dialog.dismiss();
-             JSONObject jsonObject=new JSONObject(result);
-             String val=jsonObject.getString("key_person_id").toString();
-                    Intent intent = new Intent(OtpActivity.this, MainActivity.class);
-                    intent.putExtra("code", val);
-                    startActivity(intent);
-                    finish();
+                    JSONObject jsonObject = new JSONObject(result);
+                    List<Bean> value = new ArrayList<Bean>();
+                    JSONArray jsonArray2 = jsonObject.getJSONArray("tpdata");
+                    for (int i = 0; i < jsonArray2.length(); i++) {
+                        Bean bean = new Bean();
+                       String key= jsonArray2.getString(i);
+                        bean.setTpid(key);
+                        value.add(bean);
+                    }
+                     databaseOperation.open();
+                    resultdatabase = databaseOperation.inserttp_id(value);
+                    if (resultdatabase > 0) {
+                        Intent intent = new Intent(OtpActivity.this, MainActivity.class);
+                        // intent.putExtra("trafficpoliceid", val);
+                        startActivity(intent);
+                        finish();
+                    }
                 }
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
 
-
         }
-        @Override
+
+            @Override
         protected void onPreExecute()
         {
             dialog =  ProgressDialog.show(OtpActivity.this, "", "Proccessing....Please wait");
@@ -166,6 +189,7 @@ public class OtpActivity extends AppCompatActivity
         protected void onProgressUpdate(String... text)
         {
         }
+
         private void showconnAlert() {
             AlertDialog alertDialog = new AlertDialog.Builder(getApplicationContext()).create();
             // Setting Dialog Title
