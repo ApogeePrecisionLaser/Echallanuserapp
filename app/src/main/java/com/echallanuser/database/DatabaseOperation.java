@@ -79,6 +79,7 @@ public class DatabaseOperation
         } finally {
             database.endTransaction();
         }
+
         return result;
     }
     public ArrayList<String> getid() {

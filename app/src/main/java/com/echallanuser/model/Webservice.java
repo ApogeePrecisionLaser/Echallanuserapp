@@ -24,8 +24,8 @@ import java.io.UnsupportedEncodingException;
 public class Webservice {
     private static final String TAG = "Echallan";
     Context context;
-    String server_ip="120.138.10.251";
-    String port="8080";
+    String server_ip;
+    String port;
     public Webservice(Context context) {
         this.context = context;
     }

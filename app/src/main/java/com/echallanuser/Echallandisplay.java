@@ -34,9 +34,11 @@ public class Echallandisplay extends AppCompatActivity {
  String trafficpoliceid;
     TableLayout tableLayout;
  DatabaseOperation databaseOperation=new DatabaseOperation(this);
-    String challanno,amount1;
+    String challanno,amount1,offendername,vechno,officername,offencecode,locations,offencedatee,vechtype,acts,offencetype,actorigins;
     ArrayList<String> tpid=new ArrayList<>();
     JSONArray jsonArray=new JSONArray();
+    //            {"OffenceData":[{"Challan_no":"ORDER_650673","key_person_name":"श्री आर.एन त्रिपाठी","vehicle_no":"m8067996","offender_name":"","location":"बिग्रिडिया तिराहा","offencedate":"10-07-2019 15:47:35","city_name":"","offender_age":""},{"offencedetails":[{"vehicle_type":"LMV","act":"66\/192 ख","offence_type":"परमिट धारी वाहनों में ओव्हरलोड सवारी बैठाना","amount":"100000","act_origin":"Circular Moter vehicle Rules ","offence_code":"9"},{"vehicle_type":"LMV","act":"112\/183 (1)","offence_type":"चालक द्वारा निर्धारित गति से अधिक गति  में वाहन चलाना","amount":"3000","act_origin":"Circular Moter vehicle Rules ","offence_code":"11"}]}]}
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,26 +89,79 @@ public class Echallandisplay extends AppCompatActivity {
         protected void onPostExecute(String result) {
             try {
                 if (!result.isEmpty()) {
-
+                    int i=0;
+                    JSONObject jsonObject1=null;
+                    JSONObject jsonObject2=null;
                     JSONObject jsonObject = new JSONObject(result);
 
                     JSONArray jsonArray2 = jsonObject.getJSONArray("OffenceData");
+                     int a = jsonObject.length();
+                     int b = jsonArray2.length();
+                    for ( i = 0; i < jsonArray2.length(); i++) {
+                        //                 {"OffenceData":[{"Challan_no":"ORDER_138964","key_person_name":"श्री आर.एन त्रिपाठी","vehicle_no":"MP08R8868","offender_name":"","location":"ikuh dh Vadh frjkgk","offencedate":"24-07-2020 17:54:36","city_name":"","offender_age":"","vehicle_type":"LMV","act":"81\/177","offence_type":"मालयानो में पशुओ को  ले  जाना ","amount":"500","act_origin":"Madhya pradesh Moter vehicle Rules 1994","offence_code":"156"}]}
+//                         int as =     jsonArray2.getJSONObject(i).length();
 
-                    for (int i = 0; i < jsonArray2.length(); i++) {
-       //                 {"OffenceData":[{"Challan_no":"ORDER_138964","key_person_name":"श्री आर.एन त्रिपाठी","vehicle_no":"MP08R8868","offender_name":"","location":"ikuh dh Vadh frjkgk","offencedate":"24-07-2020 17:54:36","city_name":"","offender_age":"","vehicle_type":"LMV","act":"81\/177","offence_type":"मालयानो में पशुओ को  ले  जाना ","amount":"500","act_origin":"Madhya pradesh Moter vehicle Rules 1994","offence_code":"156"}]}
-                       JSONObject jsonObject1 = jsonArray2.getJSONObject(i);
+                        if(jsonArray2.getJSONObject(i).has("offencedetails")){
+                            jsonObject2 = jsonArray2.getJSONObject(i);
+                            int c = jsonObject2.length();
+                            JSONArray jsonArray3 = jsonObject2.getJSONArray("offencedetails");
+                            JSONObject jsonObject3 = jsonArray3.getJSONObject(0);
 
-                        amount1=jsonObject1.getString("amount");
-                        challanno=jsonObject1.getString("Challan_no");
+                            amount1 = jsonObject3.getString("amount");
+                                vechtype = jsonObject3.getString("vehicle_type");
+                                acts = jsonObject3.getString("act");
+                                actorigins = jsonObject3.getString("act_origin");
+                                officername = jsonObject3.getString("Officer_name");
+                                offencetype = jsonObject3.getString("offence_type");
+                                offencecode = jsonObject3.getString("offence_code");                        }
+                      //  for (int j =0 ; j< jsonArray2.getJSONObject(i).length() ; j++){
+                           else {
+                            jsonObject1 = jsonArray2.getJSONObject(i);
+                            challanno = jsonObject1.getString("Challan_no");
+                            offendername = jsonObject1.getString("offender_name");
+                            vechno = jsonObject1.getString("vehicle_no");
+                            locations = jsonObject1.getString("location");
+                            offencedatee = jsonObject1.getString("offencedate");
+                            //    }
+                        }
+
+                    }
+//                    if(i==1) {
+//                        JSONArray array = jsonObject.getJSONArray("offencedetails");
+//
+//                        for (int j = 0; j < array.length(); j++) {
+//
+//                            System.out.println(array);
+////                                amount1 = array.getString("amount");
+////                                vechtype = array.getString("vechicle_type");
+////                                acts = array.getString("act");
+////                                actorigins = array.getString("act_origin");
+////                                officername = array.getString("Officer_name");
+////                                offencetype = array.getString("offence_type");
+////                                offencecode = array.getString("offence_code");
+//                        }
+//                    }
+                            try {
+                                showTable(jsonObject);
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
+                        }
                         try {
                             dialog.dismiss();
-                            showTable(jsonObject);
+
                         }catch (Exception e){
                             e.printStackTrace();
                         }
-                    }
 
-                }
+
+
+
+
+
+                    dialog.dismiss();
+                    Toast.makeText(Echallandisplay.this,"Error from server ",Toast.LENGTH_LONG).show();
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -123,28 +178,24 @@ public class Echallandisplay extends AppCompatActivity {
 
     }
     public void showTable(JSONObject jsonObject) {
+        TableRow row = new TableRow(this);
 
         ScrollView scrollview =  findViewById(R.id.scroll_table);
         HorizontalScrollView horizontalScrollView = findViewById(R.id.horizon_table);
         JSONArray jsonArray = null;
+        JSONArray jsonArrays = null;
         tableLayout.removeAllViews();
-        try {
-            jsonArray = jsonObject.getJSONArray("OffenceData");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         try {
             int i = 0;
             if (i == 0) {
-                TableRow row = new TableRow(this);
                 row.removeAllViews();
                 createHeaderColumnView(row, new TextView(this), "S.No");
                 createHeaderColumnView(row, new TextView(this), "Challan_no");
                 createHeaderColumnView(row, new TextView(this), "offender_name");
                 createHeaderColumnView(row, new TextView(this), "vehicle_no");
                 createHeaderColumnView(row, new TextView(this), "location");
+                createHeaderColumnView(row, new TextView(this), "vechicle_type");
                 createHeaderColumnView(row, new TextView(this), "offence_code");
                 createHeaderColumnView(row, new TextView(this), "offence_type");
                 createHeaderColumnView(row, new TextView(this), "act");
@@ -157,54 +208,53 @@ public class Echallandisplay extends AppCompatActivity {
 
             for (int ii = 0; ii < jsonArray.length(); ii++) {
                 try {
-                    ++i;
-                    JSONObject jsonObject1 = jsonArray.getJSONObject(ii);
-                    TableRow row = new TableRow(this);
+
                     TextView sno = new TextView(this);
                     createColumnView(row, sno, i + "", false);
                     TextView Challan_no = new TextView(this);
 
-                    createColumnView(row, Challan_no, jsonObject1.getString("Challan_no").toString(), false);
+                    createColumnView(row, Challan_no, challanno, false);
                     TextView offender_name = new TextView(this);
-                    createColumnView(row, offender_name, jsonObject1.getString("offender_name").toString(), false);
+                    createColumnView(row, offender_name, offendername, false);
                     TextView vehicle_no = new TextView(this);
-                    createColumnView(row, vehicle_no, jsonObject1.getString("vehicle_no").toString(), false);
+                    createColumnView(row, vehicle_no,vechno, false);
                     TextView location = new TextView(this);
-                    createColumnView(row, location, jsonObject1.getString("location").toString(), false);
-                    final TextView offence_code = new TextView(this);
-                    createColumnView(row, offence_code, jsonObject1.getString("offence_code").toString(), false);
-                    final TextView offence_type=new TextView(this);
-                    createColumnView(row, offence_type,jsonObject1.getString("offence_type").toString(), false);
-                    final TextView act=new TextView(this);
-                    createColumnView(row, act,jsonObject1.getString("act").toString(), false);
-                    final TextView act_origin=new TextView(this);
-                    createColumnView(row, act_origin,jsonObject1.getString("act_origin").toString(), false);
-                    final TextView key_person_name=new TextView(this);
-                    createColumnView(row, key_person_name,jsonObject1.getString("key_person_name").toString(), false);
+                    createColumnView(row, location,locations, false);
+                     final TextView key_person_name=new TextView(this);
+                    createColumnView(row, key_person_name,offendername, false);
                     final TextView offencedate=new TextView(this);
-                    createColumnView(row, offencedate,jsonObject1.getString("offencedate").toString(), false);
-                    final TextView amount=new TextView(this);
-                    createColumnView(row, amount,jsonObject1.getString("amount").toString(), true);
-                    amount.setOnClickListener(new View.OnClickListener() {
-                      @Override
-                      public void onClick(View v) {
-                          Intent intent=new Intent(Echallandisplay.this, checksum.class);
-                          intent.putExtra("echallanno",challanno);
-                          intent.putExtra("amount",amount1);
-                          startActivity(intent);
-                      }
-                  });
+                    createColumnView(row, offencedate,offencedatee, false);
+                    final TextView offence_code = new TextView(this);
+                    createColumnView(row, offence_code, offencecode, false);
+                    final TextView offence_type=new TextView(this);
+                    createColumnView(row, offence_type,offencetype, false);
+                    final TextView act=new TextView(this);
+                    createColumnView(row, act,acts, false);
+                    final TextView act_origin=new TextView(this);
+                    createColumnView(row, act_origin,actorigins, false);
+                    final TextView vechcletype=new TextView(this);
+                    createColumnView(row, vechcletype,vechtype, false);
+                    final TextView amt=new TextView(this);
+                    createColumnView(row, amt,amount1, true);
+                    amt.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent=new Intent(Echallandisplay.this, checksum.class);
+                            intent.putExtra("echallanno",challanno);
+                            intent.putExtra("amount",amount1);
+                            startActivity(intent);
+                        }
+                    });
                     tableLayout.addView(row);
 
-
-
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 //TableRow row=new TableRow(this);
 
 
             }
+
 
             horizontalScrollView.addView(tableLayout);
             scrollview.addView(horizontalScrollView);
